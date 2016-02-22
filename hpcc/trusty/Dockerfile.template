@@ -1,0 +1,12 @@
+FROM hpccsystems/linux:trusty_hpcc5
+MAINTAINER Xiaoming Wang <xiaoming.wang@lexisnexis.com>
+RUN apt-get update  
+RUN wget <URL_BASE>/<HPCC_IMAGE>
+RUN groupadd hpcc
+RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc
+RUN dpkg -i <HPCC_IMAGE>
+EXPOSE 8010 8002 8015 9876
+ADD run_master.sh /tmp/
+RUN chmod +x /tmp/run_master.sh
+RUN mkdir -p /var/run/sshd
+CMD ["bash", "-c", "sudo /usr/sbin/sshd -D"]
