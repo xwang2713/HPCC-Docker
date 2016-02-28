@@ -5,11 +5,14 @@ SCRIPT_DIR=$(dirname $0)
 usage()
 {
    echo ""
-   echo "Usage: build.sh -b <url> -d <directory> -f <file name> -p <project> -t <tag>"
+   echo "Usage: build.sh -b <url> -d <directory> -f <file name> -p <project> "
+   echo "                -s <base image suffix> -t <tag>"
    echo "  -b: base url of HPCC project image"
    echo "  -i: docker template file path"
    echo "  -f: HPCC image file name"
    echo "  -p: HPCC project name. Default is platform-ce"
+   echo "  -s: base linux image tag suffix. The default is hpcc5 which is for"
+   echo "      HPCC 5.x"
    echo "  -t: docker image tag"
    echo ""
    exit
@@ -26,7 +29,9 @@ tag=
 
 template=
 
-while getopts "*b:i:f:p:t:" arg
+base_suffix=hpcc5
+
+while getopts "*b:i:f:p:s:t:" arg
 do
     case "$arg" in
        b) base_url="$OPTARG"
@@ -36,6 +41,8 @@ do
        f) file_name="$OPTARG"
           ;;
        p) project="$OPTARG"
+          ;;
+       s) base_suffix="$OPTARG"
           ;;
        t) tag="$OPTARG"
           ;;
@@ -51,10 +58,12 @@ fi
 
 
 cp ${SCRIPT_DIR}/run_master.sh .
+cp ${SCRIPT_DIR}/get_ips.* .
 
 [ -e Dockerfile ] && rm -rf Dockerfile
 
 sed "s|<URL_BASE>|${base_url}|g; \
+     s|<BASE_SUFFIX>|${base_suffix}|g; \
      s|<HPCC_IMAGE>|${file_name}|g" < ${template} > Dockerfile
 
 eval "$(docker-machine env default)"

@@ -1,6 +1,6 @@
 hpcc-master:
    image: hpccsystems/platform-ce:5.4.8-1trusty
-   command:  /tmp/run_master.sh
+   command:  bash -c "cd /tmp; /tmp/run_master.sh"
    ports:
      - "8010:8010"
    links:
