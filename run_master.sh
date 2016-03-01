@@ -27,16 +27,20 @@ ps -efa | grep -v sshd |  grep -q sshd
 #------------------------------------------
 # Collect conainters' ips
 #
-if [ -z "${KUBERNETES_SERVICE_HOST}" ]
+
+if [ -z "$1" ] || [ "$1" != "-x" ]
 then
-   grep -e "[[:space:]]hpcc-thor_[[:digit:]][[:digit:]]*" /etc/hosts | awk '{print $1}' > thor_ips.txt
-   grep -e "[[:space:]]hpcc-roxie_[[:digit:]][[:digit:]]*" /etc/hosts | awk '{print $1}' > roxie_ips.txt
-   local_ip=$(ifconfig eth0 | sed -n "s/.*inet addr:\(.*\)/\1/p" | awk '{print $1}')
-   [ -z "$local_ip" ] && local_ip=$(ifconfig eth0 | sed -n "s/.*inet \(.*\)/\1/p" | awk '{print $1}')
-   echo "$local_ip"  > ips.txt
-else
-   ${SCRIPT_DIR}/get_ips.sh
-   ${SCRIPT_DIR}/get_ips.py
+   if [ -z "${KUBERNETES_SERVICE_HOST}" ]
+   then
+      grep -e "[[:space:]]hpcc-thor_[[:digit:]][[:digit:]]*" /etc/hosts | awk '{print $1}' > thor_ips.txt
+      grep -e "[[:space:]]hpcc-roxie_[[:digit:]][[:digit:]]*" /etc/hosts | awk '{print $1}' > roxie_ips.txt
+      local_ip=$(ifconfig eth0 | sed -n "s/.*inet addr:\(.*\)/\1/p" | awk '{print $1}')
+      [ -z "$local_ip" ] && local_ip=$(ifconfig eth0 | sed -n "s/.*inet \(.*\)/\1/p" | awk '{print $1}')
+      echo "$local_ip"  > ips.txt
+   else
+      ${SCRIPT_DIR}/get_ips.sh
+      ${SCRIPT_DIR}/get_ips.py
+   fi
 fi
 cat roxie_ips.txt >> ips.txt
 cat thor_ips.txt >> ips.txt
@@ -95,4 +99,7 @@ echo "HPCC cluster configuration is done." >> ${LOG_FILE}
 #------------------------------------------
 # Keep container running
 #
-while [ 1 ] ; do sleep 60; done 
+if [ -z "$1" ] || [ "$1" != "-x" ]
+then
+   while [ 1 ] ; do sleep 60; done 
+fi

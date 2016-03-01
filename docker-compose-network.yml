@@ -20,3 +20,9 @@ services:
     image: hpccsystems/platform-ce:5.4.8-1trusty
     privileged: true
     tty: true
+
+
+networks:
+  default:
+    external: 
+      name: hpccbridge
