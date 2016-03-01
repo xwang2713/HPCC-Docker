@@ -101,7 +101,27 @@ e1324676a4cf
 ```
 There is help a script 'clean_run.sh" can do it but just remmeber it will remove all containers.
        
-        
+### Customerize network
+By default containers will have network 172.x default docker bridge network. Since on Windows and Mac docker machine run on a Virtualbox VM these 172.x ips can not accessed on Windows and Mac. With Docker-compose 1.6.2+ you can create a new network to work around this.
+Docker-compose 1.6.2 requires Docker 1.10.2+. All of these are available with [Docker Toolbox 1.10.2a or later](https://github.com/docker/toolbox) package which is not released yet. But you can build it youself.
+
+docker-compose-network.yml show how to use a user defined network "hpccbridge" can be create with '''docker network create'''
+For example,
+
+```sh
+docker network create --driver=bridge --gateway=192.168.60.1  --subnet=192.168.60.1/24 hpccbridge
+```
+Type '''docker network create -h``` for more options.
+
+When using user defined network container ips are no more published in environemnt variable and in /etc/hosts. So our collecting ip method in run_master.sh doesn't work.  To configure the cluster you need login to master instance:
+```sh
+docker exec -i -t <master instance id> bash
+```
+Got to /tmp and make sure ips.txt has local eth0 ip, thor_ips.txt has all thor instances ips and roxie_ips.txt has all roxie instances ips. You can get an instance ip with ```docker inspect <container id>```
+To configure the HPCC cluster:
+```sh
+./run_master.sh
+```
 
 ## Build HPCC Docker images
 
