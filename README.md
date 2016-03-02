@@ -43,7 +43,8 @@ NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DO
 default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1.9.1   
 
 ```
-To verify and play with HPCC Platform: http://<host ip>:8010. For example http://192.168.99.100:8010
+To verify and play with HPCC Platform: http://\{host ip\}:8010. For example http://192.168.99.100:8010. If you need expose more ports you can add them in docker-compose.yml file.
+
 ### Scale thor and roxie instances
 To add new thor or roxie use:
 ```sh
