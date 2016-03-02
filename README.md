@@ -70,9 +70,9 @@ hpccdocker_hpcc-master_run_1
 ```
 
 On CentOS you may need login to hpcc-master to manually start the cluser:
-1. Find hpcc-master container id (first column): ```docker ps | grep hpcc-master```
-2. Login interactive shell: ```docker exec -i -t --privileged -e "container=docker" <id> /bin/bash```
-3. Start HPCC cluster: ```sudo /opt/HPCCSystems/sbin/hpcc-run start```.
+ 1. Find hpcc-master container id (first column): ```docker ps | grep hpcc-master```
+ 2. Login interactive shell: ```docker exec -i -t --privileged -e "container=docker" <id> /bin/bash```
+ 3. Start HPCC cluster: ```sudo /opt/HPCCSystems/sbin/hpcc-run start```.
 Eventhough login shell is for root but "USER" variable is not defined which is why we need use "sudo" here. We will fix with id instead USER varialbe in future hpcc-run.sh code.
 
 ### Stop the cluster:
