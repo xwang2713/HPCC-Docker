@@ -1,6 +1,10 @@
 FROM hpccsystems/linux:trusty_<BASE_SUFFIX>
 MAINTAINER Xiaoming Wang <xiaoming.wang@lexisnexis.com>
+RUN rm -rf /var/lib/apt/lists
+RUN mkdir -p /var/lib/apt/lists/partial
+RUN apt-get clean
 RUN apt-get update  
+RUN apt-get install -y libnuma1 --fix-missing
 RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 RUN groupadd hpcc
 RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc

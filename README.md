@@ -142,7 +142,9 @@ Create build directory, for example build and go inside of it.
 Depends on which you want to build (Ubuntu Trusty or CentOS 7 and HPCC version), you can use help script
 under HPCC-Docker or modify them or call HPCC-Docker/build.sh. For example to build HPCC 5.4.8-1 on Trusty:
 ```sh
-../HPCC-Docker/build_trusty.sh
+../HPCC-Docker/build.sh -l <Linux codename> -s <base image tag suffix> -v <HPCC full version>. For example,
+../HPCC-Docker/build.sh -l trusty -s hpcc5 -v 6.0.0-rc4
+
 ```
 If every build run OK build output will display "successfully ....". 
 docker images will show:

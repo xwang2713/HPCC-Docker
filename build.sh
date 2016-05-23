@@ -19,7 +19,7 @@ usage()
 
 # http://10.176.32.10/builds/CE-Candidate-5.4.6/bin/platform/
 base_url=http://cdn.hpccsystems.com/releases
-#base_url=http://10.176.32.10/builds
+#base_url=http://10.240.32.242/builds
 
 codename=
 project=ce
