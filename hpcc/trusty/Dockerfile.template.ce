@@ -1,10 +1,10 @@
 FROM hpccsystems/linux:trusty_<BASE_SUFFIX>
 MAINTAINER Xiaoming Wang <xiaoming.wang@lexisnexis.com>
 RUN apt-get update  
-RUN wget <URL_BASE>/<HPCC_IMAGE>
+RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 RUN groupadd hpcc
 RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc
-RUN dpkg -i <HPCC_IMAGE>
+RUN dpkg -i hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 EXPOSE 8010 8002 8015 9876
 ADD run_master.sh /tmp/
 ADD get_ips.py /tmp/
