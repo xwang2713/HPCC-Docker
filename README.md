@@ -124,6 +124,11 @@ To configure the HPCC cluster:
 ./run_master.sh
 ```
 
+## Known issues
+### containers'ip are not inserted to /etc/hosts
+This probably related to firewall setting on the host linux: https://github.com/docker/docker/issues/16137. Even ping and 'getent hosts <service name>' can get ip but it will be hard if there are multiple containers with a same service name. For example 2 thor nodes.  
+
+
 ## Build HPCC Docker images
 
 Checkout this git repository:
