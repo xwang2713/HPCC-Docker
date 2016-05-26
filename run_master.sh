@@ -16,9 +16,11 @@ function check_update()
               tar -zxf $file_name 
               cd ${file_name%.tar.gz}
           elif [ ${file_name: -4} == ".tar" ] 
+          then
               tar -xf $file_name 
               cd ${file_name%.tar}
           elif [ ${file_name: -4} == ".zip" ] 
+          then
               unzip $file_name 
               cd ${file_name%.zip}
           else
@@ -65,13 +67,12 @@ ps -efa | grep -v sshd |  grep -q sshd
 #------------------------------------------
 # Check update
 #
-check_update()
+check_update
+[ $? -ne 0 ] && echo "Update is not available, use default /tmp/config_hpcc.sh"
 
 #------------------------------------------
 # Run config_hpcc.sh
 #
-check_update()
-[ $? -ne 0 ] && echo "Update is not available, use default /tmp/config_hpcc.sh"
 pwd
 ./configure_hpcc.sh > /tmp/config_hpcclog 2>&1
 
