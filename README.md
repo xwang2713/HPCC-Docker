@@ -89,6 +89,14 @@ Removing hpccdocker_hpcc-thor_2 ... done
 Removing hpccdocker_hpcc-thor_1 ... done
 Removing hpccdocker_hpcc-roxie_1 ... done
 ```
+
+Above can be done with one command
+```sh
+docker-compose down
+```
+
+
+
 If restart hpcc-master you need run docker commands to stop and remove it:
 ```sh
 docker ps
@@ -101,6 +109,9 @@ docker rm  e1324676a4cf
 e1324676a4cf
 ```
 There is help a script 'clean_run.sh" can do it but just remmeber it will remove all containers.
+
+
+
        
 ### Customerize network
 By default containers will have network 172.x default docker bridge network. Since on Windows and Mac docker machine run on a Virtualbox VM these 172.x ips can not accessed on Windows and Mac. With Docker-compose 1.6.2+ you can create a new network to work around this.
@@ -151,7 +162,7 @@ under HPCC-Docker or modify them or call HPCC-Docker/build.sh. For example to bu
 ../HPCC-Docker/build.sh -l trusty -s hpcc5 -v 6.0.0-rc4
 
 ```
-If every build run OK build output will display "successfully ....". 
+If every build run OK build output will display "successfully ....".
 docker images will show:
 ```sh
 docker images

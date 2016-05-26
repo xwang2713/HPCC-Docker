@@ -85,6 +85,7 @@ echo "file_name_suffix: $file_name_suffix"
 
 
 cp ${SCRIPT_DIR}/run_master.sh .
+cp ${SCRIPT_DIR}/config_hpcc.sh .
 cp ${SCRIPT_DIR}/get_ips.* .
 
 [ -e Dockerfile ] && rm -rf Dockerfile
@@ -106,7 +107,7 @@ echo "Test docker image"
 if [ "$package_type" = "deb" ]
 then
    #echo "For Ubuntu:"
-   echo "    docker run -t -i -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
+   echo "    docker run -t -i --privileged -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
    echo "    sudo service ssh start"
    echo "    sudo service hpcc-init start"
 else

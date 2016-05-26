@@ -1,8 +1,8 @@
 version: '2'
 services:
   hpcc-master:
-    image: hpccsystems/platform-ce:5.4.8-1trusty
-    command:  bash -c "cd /tmp; /tmp/run_master.sh"
+    image: hpccsystems/platform-ce:6.0.0-rc4trusty
+    command:  bash -c "cd /tmp; set -e && /tmp/run_master.sh"
     ports:
       - "8010:8010"
     links:
@@ -10,13 +10,19 @@ services:
       - hpcc-roxie
     privileged: true
     tty: true
+    environment:
+      - MAX_ROXIE_INDEX=10
+      - MAX_THOR_INDEX=10
+      - SLAVES_PER_NODE=1
+      - DOWNLOAD_URL=https://github.com/xwang2713/HPCC-Docker
+      - DOWNLOAD_METHOD=git
 
   hpcc-thor:
-    image: hpccsystems/platform-ce:5.4.8-1trusty
+    image: hpccsystems/platform-ce:6.0.0-rc4trusty
     privileged: true
     tty: true
 
   hpcc-roxie:
-    image: hpccsystems/platform-ce:5.4.8-1trusty
+    image: hpccsystems/platform-ce:6.0.0-rc4trusty
     privileged: true
     tty: true
