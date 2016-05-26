@@ -33,7 +33,7 @@ function create_ips_string()
    while read ip
    do
       ip=$(echo $ip | sed 's/[[:space:]]//g') 
-      [ -n "$ip" ] && IPS="${IPS}${ip};"
+      [ -n "$ip" ] && IPS="${IPS}${ip}\;"
    done < $1
 }
 

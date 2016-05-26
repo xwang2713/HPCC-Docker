@@ -74,7 +74,7 @@ check_update
 # Run config_hpcc.sh
 #
 pwd
-./configure_hpcc.sh > /tmp/config_hpcclog 2>&1
+./config_hpcc.sh > /tmp/config_hpcc.log 2>&1
 
 
 #------------------------------------------
