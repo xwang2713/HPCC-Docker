@@ -109,7 +109,7 @@ then
    #echo "For Ubuntu:"
    echo "    docker run -t -i --privileged -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
    echo "    sudo service ssh start"
-   echo "    sudo service hpcc-init start"
+   echo "    sudo /etc/init.d/hpcc-init start"
 else
    #echo "For CentOS:"
    echo "    docker run --privileged -t -i -e "container=docker" -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
