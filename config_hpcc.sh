@@ -118,7 +118,7 @@ cmd="$SUDOCMD ${HPCC_HOME}/sbin/envgen -env ${CONFIG_DIR}/${ENV_XML_FILE}   \
 if [ $thor_nodes -gt 0 ]
 then
    create_ips_string thor_ips.txt
-   cmd="$cmd -assign_ips thor $IPS"
+   cmd="$cmd -assign_ips thor ${local_ip}\;${IPS}"
 fi
 
 if [ $roxie_nodes -gt 0 ]
