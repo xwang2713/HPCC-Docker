@@ -159,7 +159,7 @@ Depends on which you want to build (Ubuntu Trusty or CentOS 7 and HPCC version),
 under HPCC-Docker or modify them or call HPCC-Docker/build.sh. For example to build HPCC 5.4.8-1 on Trusty:
 ```sh
 ../HPCC-Docker/build.sh -l <Linux codename> -s <base image tag suffix> -v <HPCC full version>. For example,
-../HPCC-Docker/build.sh -l trusty -s hpcc5 -v 6.0.0-rc4
+../HPCC-Docker/build.sh -l trusty -s hpcc5 -v 6.0.0-1
 
 ```
 If every build run OK build output will display "successfully ....".

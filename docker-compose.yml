@@ -1,7 +1,7 @@
 version: '2'
 services:
   hpcc-master:
-    image: hpccsystems/platform-ce:6.0.0-rc6trusty
+    image: hpccsystems/platform-ce:6.0.0-rc6.el6
     command:  bash -c "cd /tmp; set -e && /tmp/run_master.sh"
     ports:
       - "8010:8010"
@@ -18,11 +18,11 @@ services:
       #- DOWNLOAD_METHOD=git
 
   hpcc-thor:
-    image: hpccsystems/platform-ce:6.0.0-rc6trusty
+    image: hpccsystems/platform-ce:6.0.0-rc6.el6
     privileged: true
     tty: true
 
   hpcc-roxie:
-    image: hpccsystems/platform-ce:6.0.0-rc6trusty
+    image: hpccsystems/platform-ce:6.0.0-rc6.el6
     privileged: true
     tty: true

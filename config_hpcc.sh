@@ -112,19 +112,27 @@ roxie_ips="roxie $IPS"
 cmd="$SUDOCMD ${HPCC_HOME}/sbin/envgen -env ${CONFIG_DIR}/${ENV_XML_FILE}   \
 -override roxie,@roxieMulticastEnabled,false -override thor,@replicateOutputs,true \
 -override esp,@method,htpasswd -override thor,@replicateAsync,true                  \
--ip $local_ip -thornodes ${thor_nodes} -slavesPerNode ${slaves_per_node}       \
+-thornodes ${thor_nodes} -slavesPerNode ${slaves_per_node}       \
 -roxienodes ${roxie_nodes} -supportnodes ${support_nodes} -roxieondemand 1" 
 
-if [ $thor_nodes -gt 0 ]
+HPCC_VERSION=$(${HPCC_HOME}/bin/eclcc --version | cut -d' ' -f1)
+HPCC_MAJOR=${HPCC_VERSION%%.*}
+if [ $HPCC_MAJOR -gt 5 ]
 then
-   create_ips_string thor_ips.txt
-   cmd="$cmd -assign_ips thor ${local_ip}\;${IPS}"
-fi
+    cmd="$cmd -ip $local_ip" 
+    if [ $thor_nodes -gt 0 ]
+    then
+       create_ips_string thor_ips.txt
+       cmd="$cmd -assign_ips thor ${local_ip}\;${IPS}"
+    fi
 
-if [ $roxie_nodes -gt 0 ]
-then
-   create_ips_string roxie_ips.txt
-   cmd="$cmd -assign_ips roxie $IPS"
+    if [ $roxie_nodes -gt 0 ]
+    then
+       create_ips_string roxie_ips.txt
+       cmd="$cmd -assign_ips roxie $IPS"
+    fi
+else
+    cmd="$cmd -ipfile ${IP_FILE}" 
 fi
 
 #------------------------------------------
@@ -147,8 +155,8 @@ $SUDOCMD   su - hpcc -c "/opt/HPCCSystems/sbin/hpcc-push.sh \
 # Should fix it in Platform code to use id instead of $USER
 # Need stop first since if add contaners other thor and roxie containers are already up.
 # Force them to read environemnt.xml by stop and start
-$SUDOCMD   ${HPCC_HOME}/sbin/hpcc-run.sh stop
-$SUDOCMD   ${HPCC_HOME}/sbin/hpcc-run.sh start
+$SUDOCMD su - hpcc -c  "${HPCC_HOME}/sbin/hpcc-run.sh stop"
+$SUDOCMD su - hpcc -c  "${HPCC_HOME}/sbin/hpcc-run.sh start"
 
 
 set +x

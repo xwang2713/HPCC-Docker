@@ -18,8 +18,8 @@ usage()
 }
 
 #http://10.240.32.242/builds/CE-Candidate-5.4.6/bin/platform/
-#base_url=http://cdn.hpccsystems.com/releases
-base_url=http://10.240.32.242/builds
+base_url=http://cdn.hpccsystems.com/releases
+#base_url=http://10.240.32.242/builds
 
 codename=
 project=ce
@@ -113,7 +113,7 @@ then
 else
    #echo "For CentOS:"
    echo "    docker run --privileged -t -i -e "container=docker" -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
-   echo "    /usr/sbin/sshd -D &"
+   echo "    /usr/sbin/sshd &"
    echo "    /etc/init.d/hpcc-init start"
 fi
 
