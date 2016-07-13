@@ -19,4 +19,3 @@ if [ -z "$1" ] || [ "$1" != "-x" ]
 then
    while [ 1 ] ; do sleep 60; done
 fi
-
