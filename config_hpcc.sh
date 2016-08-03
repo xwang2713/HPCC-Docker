@@ -76,16 +76,22 @@ then
           get_roxie_ips
           get_thor_ips
       fi
-
-      local_ip=$(ifconfig eth0 | sed -n "s/.*inet addr:\(.*\)/\1/p" | awk '{print $1}')
-      [ -z "$local_ip" ] && local_ip=$(ifconfig eth0 | sed -n "s/.*inet \(.*\)/\1/p" | awk '{print $1}')
-      echo "$local_ip"  > ips.txt
    else
-      ${SCRIPT_DIR}/get_ips.sh
-      ${SCRIPT_DIR}/get_ips.py
+      trials=3
+      while [ $trials -gt 0 ]
+      do
+         ${SCRIPT_DIR}/get_ips.sh
+         ${SCRIPT_DIR}/get_ips.py
+         [ $? -eq 0 ] && break  
+         trials=$(expr $trials \- 1)
+         sleep 5
+      done
    fi
 fi
 
+local_ip=$(ifconfig eth0 | sed -n "s/.*inet addr:\(.*\)/\1/p" | awk '{print $1}')
+[ -z "$local_ip" ] && local_ip=$(ifconfig eth0 | sed -n "s/.*inet \(.*\)/\1/p" | awk '{print $1}')
+echo "$local_ip"  > ips.txt
 cat roxie_ips.txt >> ips.txt
 cat thor_ips.txt >> ips.txt
 #cat ips.txt
@@ -98,16 +104,19 @@ HPCC_HOME=/opt/HPCCSystems
 CONFIG_DIR=/etc/HPCCSystems
 ENV_XML_FILE=environment.xml
 IP_FILE=ips.txt
-thor_nodes=$(cat thor_ips.txt | wc -l)
-roxie_nodes=$(cat roxie_ips.txt | wc -l)
+
+[ -e thor_ips.txt ] && thor_nodes=$(cat thor_ips.txt | wc -l)
+[ -e roxie_ips.txt ] && roxie_nodes=$(cat roxie_ips.txt | wc -l)
+[ -e esp_ips.txt ] && esp_nodes=$(cat esp_ips.txt | wc -l)
 support_nodes=1
 slaves_per_node=1
 [ -n "$SLAVES_PER_NODE" ] && slaves_per_node=${SLAVES_PER_NODE}
 [ -z "$thor_nodes" ] && thor_nodes=0
 [ -z "$roxie_nodes" ] && roxie_nodes=0
+[ -z "$esp_nodes" ] && esp_nodes=0
 
-create_ips_string roxie_ips.txt
-roxie_ips="roxie $IPS"
+#create_ips_string roxie_ips.txt
+#roxie_ips="roxie $IPS"
 
 cmd="$SUDOCMD ${HPCC_HOME}/sbin/envgen -env ${CONFIG_DIR}/${ENV_XML_FILE}   \
 -override roxie,@roxieMulticastEnabled,false -override thor,@replicateOutputs,true \
@@ -130,6 +139,12 @@ then
     then
        create_ips_string roxie_ips.txt
        cmd="$cmd -assign_ips roxie $IPS"
+    fi
+
+    if [ $esp_nodes -gt 0 ]
+    then
+       create_ips_string esp_ips.txt
+       cmd="$cmd -assign_ips esp $IPS"
     fi
 else
     cmd="$cmd -ipfile ${IP_FILE}" 

@@ -4,7 +4,7 @@ RUN rm -rf /var/lib/apt/lists
 RUN mkdir -p /var/lib/apt/lists/partial
 RUN apt-get clean
 RUN apt-get update  
-RUN apt-get install -y libnuma1 --fix-missing
+RUN apt-get install -y libnuma1 psmisc --fix-missing
 RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 RUN groupadd hpcc
 RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc
@@ -18,5 +18,6 @@ RUN chmod +x /tmp/run_master.sh
 RUN chmod +x /tmp/config_hpcc.sh
 RUN chmod +x /tmp/get_ips.py
 RUN chmod +x /tmp/get_ips.sh
+RUN cp -r /home/hpcc/.ssh ~/
 RUN mkdir -p /var/run/sshd
 CMD ["bash", "-c", "set -e && sudo /usr/sbin/sshd -D"]
