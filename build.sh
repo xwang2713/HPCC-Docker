@@ -89,7 +89,8 @@ echo "Template: $template"
 echo "file_name_suffix: $file_name_suffix"
 
 
-cp ${SCRIPT_DIR}/run_master.sh .
+cp ${SCRIPT_DIR}/run_*.sh .
+cp ${SCRIPT_DIR}/start_*.sh .
 cp ${SCRIPT_DIR}/config_hpcc.sh .
 cp ${SCRIPT_DIR}/get_ips.* .
 
