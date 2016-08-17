@@ -1,0 +1,38 @@
+FROM hpccsystems/linux:xenial_<BASE_SUFFIX>
+
+# based on work done by Xiaoming Wang <xiaoming.wang@lexisnexis.com>
+MAINTAINER Gleb Aronsky <gleb.aronsky@lexisnexis.com>
+
+RUN echo "postfix postfix/main_mailer_type string 'No Mail'" | debconf-set-selections
+RUN echo "postfix postfix/mailname string hpccsystems.com" | debconf-set-selections
+
+RUN echo "nagios3-cgi nagios3/adminpassword string nagiosadmin" | debconf-set-selections
+RUN echo "nagios3-cgi nagios3/adminpassword-repeat string nagiosadmin" | debconf-set-selections
+
+#RUN sudo rm -rf /var/lib/apt/lists/*
+
+#ADD libtiff5_4.0.6-1_amd64.deb /tmp/
+#RUN dpkg -i /tmp/libtiff5_4.0.6-1_amd64.deb
+RUN apt-get update
+RUN apt-get install -y -q libtiff5
+RUN apt-get install --fix-missing -y -q apache2 libapache2-mod-php build-essential libgd2-xpm-dev nagios-plugins nagios3 nagios-nrpe-plugin
+RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+
+# hpcc-nagios
+RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/nagios-monitoring/hpccsystems-nagios-monitoring-<FILE_NAME_SUFFIX>
+
+RUN groupadd hpcc
+RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc
+RUN dpkg -i hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+RUN dpkg -i hpccsystems-nagios-monitoring-<FILE_NAME_SUFFIX>
+EXPOSE 8010 8002 8015 9876 80
+ADD run_master.sh /tmp/
+ADD config_hpcc.sh /tmp/
+ADD get_ips.py /tmp/
+ADD get_ips.sh /tmp/
+RUN chmod +x /tmp/run_master.sh
+RUN chmod +x /tmp/config_hpcc.sh
+RUN chmod +x /tmp/get_ips.py
+RUN chmod +x /tmp/get_ips.sh
+RUN mkdir -p /var/run/sshd
+CMD ["bash", "-c", "sudo /usr/sbin/sshd -D"]

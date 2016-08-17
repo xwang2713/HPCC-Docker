@@ -82,7 +82,7 @@ then
       do
          ${SCRIPT_DIR}/get_ips.sh
          ${SCRIPT_DIR}/get_ips.py
-         [ $? -eq 0 ] && break  
+         [ $? -eq 0 ] && break
          trials=$(expr $trials \- 1)
          sleep 5
       done
