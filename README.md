@@ -2,6 +2,37 @@
 
 Reference https://hub.docker.com/r/hpccsystems/platform-ce/ for HPCC Docker images usage
 
+## Build HPCC Docker images
+
+Checkout the git repository:
+```sh
+git clone https://github.com/xwang2713/HPCC-Docker.git
+```
+Check if the image already exists locally or not:
+```sh
+docker images
+```
+If the "REPOSITORY" and 'TAG' fields are the same as the ones you want to build, you need remove existing ones first:
+```sh
+docker rmi <IMAGE ID>
+```
+Create the build directory.  For example,  *build* and cd into it.
+Depending on which you want to build (Ubuntu Trusty or CentOS 7 and HPCC version), you can use a help script
+under HPCC-Docker or modify them or call HPCC-Docker/build.sh. For example to build HPCC 5.4.8-1 on Trusty:
+```sh
+../HPCC-Docker/build.sh -l <Linux codename> -s <base image tag suffix> -v <HPCC full version>. 
+For example,
+../HPCC-Docker/build.sh -l trusty -s hpcc5 -v 6.0.0-1
+
+```
+If every build runs OK, the output will display "successfully ....".
+Docker images will show:
+```sh
+docker images
+```
+
+
+
 ## Prerequisites
 Install [Docker](https://docs.docker.com/engine/installation/) and [Docker-compose](https://docs.docker.com/compose/install/)
 Ensure your Docker machine is running. For example if you use Virtualbox, or Docker daemon on native Linux, verify that it is running.
