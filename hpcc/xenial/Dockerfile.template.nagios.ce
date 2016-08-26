@@ -1,21 +1,8 @@
-FROM hpccsystems/linux:xenial_<BASE_SUFFIX>
+FROM hpccsystems/linux:xenial_nagios3
 
 # based on work done by Xiaoming Wang <xiaoming.wang@lexisnexis.com>
 MAINTAINER Gleb Aronsky <gleb.aronsky@lexisnexis.com>
 
-RUN echo "postfix postfix/main_mailer_type string 'No Mail'" | debconf-set-selections
-RUN echo "postfix postfix/mailname string hpccsystems.com" | debconf-set-selections
-
-RUN echo "nagios3-cgi nagios3/adminpassword string nagiosadmin" | debconf-set-selections
-RUN echo "nagios3-cgi nagios3/adminpassword-repeat string nagiosadmin" | debconf-set-selections
-
-#RUN sudo rm -rf /var/lib/apt/lists/*
-
-#ADD libtiff5_4.0.6-1_amd64.deb /tmp/
-#RUN dpkg -i /tmp/libtiff5_4.0.6-1_amd64.deb
-RUN apt-get update
-RUN apt-get install -y -q libtiff5
-RUN apt-get install --fix-missing -y -q apache2 libapache2-mod-php build-essential libgd2-xpm-dev nagios-plugins nagios3 nagios-nrpe-plugin
 RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 
 # hpcc-nagios
