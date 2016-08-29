@@ -10,13 +10,11 @@ usage()
    echo "  -b: base url of HPCC project image"
    echo "  -d: HPCC Docker repository directory"
    echo "  -l: Linux codename. Supported: trusty,xenial, el7, el6."
-   echo "  -p: HPCC project name: ce or ce-plugins. Default is ce"
+   echo "  -p: HPCC project name: ce or plugins. Default is ce"
    echo "  -s: base linux image tag suffix. The default is hpcc<fullvesion_major>."
    echo "      hpcc5 for el7 and trusty and hpcc6 for xenial."
    echo "  -t: tag. By default it will use fullversion and codename"
    echo "      It is useful to create a \"latest\" tag to allow update "
-   echo "  -n: build nagios monitoring for HPCC."
-   echo "      Currently supported on el6 and xenial (16.04) only."
    echo "  -v: full version. For example: 6.0.0-rc1 or 5.6.2-1"
    echo ""
    exit
@@ -32,9 +30,8 @@ tag=
 template=
 hpcc_docker_dir=../HPCC-Docker
 base_suffix=
-build_nagios=false
 
-while getopts "*b:d:l:p:s:t:v:n" arg
+while getopts "*b:d:l:p:s:t:v:" arg
 do
     case "$arg" in
        b) base_url="$OPTARG"
@@ -51,8 +48,6 @@ do
           ;;
        v) fullversion="$OPTARG"
           ;;
-       n) build_nagios=true
-	  ;;
        ?) usage
           ;;
     esac
@@ -62,14 +57,13 @@ if [ -z "${base_url}" ] || [ -z "${codename}" ] || [ -z "${fullversion}" ]
 then
     usage
 fi
-echo "build_nagios: ${build_nagios}"
-if [ "$build_nagios" == "true" ]
+
+template=${hpcc_docker_dir}/hpcc/${codename}/Dockerfile.template.${project}
+if [ "$project" = "ce" ] || [ "$project" = "ee" ] || [ "$project" = "ln" ]
 then
-    template=${hpcc_docker_dir}/hpcc/${codename}/Dockerfile.template.nagios.${project}
-else
-    template=${hpcc_docker_dir}/hpcc/${codename}/Dockerfile.template.${project}
+  PLATFORM_TYPE=$(echo $project | cut -d'-' -f1 | tr [a-z] [A-Z])
+  project="platform-${project}"
 fi
-project="platform-${project}"
 file_name_suffix=
 package_type=
 echo "Linux code name: ${codename}"
@@ -90,7 +84,6 @@ esac
 
 [ -z "$base_suffix" ] && base_suffix="hpcc$(echo ${fullversion} | cut -d'.' -f1)"
 
-PLATFORM_TYPE=$(echo $project | cut -d'-' -f2 | tr [a-z] [A-Z])
 VERSION=$(echo $fullversion | cut -d'-' -f1)
 
 echo "Project: ${project}, Full Version: ${fullversion}, version: ${VERSION}, Tag: $tag"
@@ -114,14 +107,9 @@ sed "s|<URL_BASE>|${base_url}|g; \
 
 eval "$(docker-machine env default)"
 pwd
-if [ "$build_nagios" = "true" ]
-then
-     echo "docker build -t hpccsystems/${project}_nagios:${tag} ."
-     docker build -t hpccsystems/${project}_nagios:${tag} .
-else
-     echo "docker build -t hpccsystems/${project}:${tag} ."
-     docker build -t hpccsystems/${project}:${tag} .
-fi
+
+echo "docker build -t hpccsystems/${project}:${tag} ."
+docker build -t hpccsystems/${project}:${tag} .
 
 
 echo ""
@@ -129,22 +117,12 @@ echo "Test docker image"
 if [ "$package_type" = "deb" ]
 then
    #echo "For Ubuntu:"
-if [ "$build_nagios" = "true" ]
-then
-   echo "    docker run -t -i --privileged -p 8010:8010 hpccsystems/${project}_nagios:${tag} /bin/bash"
-else
    echo "    docker run -t -i --privileged -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
-fi
    echo "    sudo service ssh start"
    echo "    sudo /etc/init.d/hpcc-init start"
 else
    #echo "For CentOS:"
-if [ "$build_nagios" = "true" ]
-then
-   echo "    docker run --privileged -t -i -e "container=docker" -p 8010:8010 hpccsystems/${project}_nagios:${tag} /bin/bash"
-else
    echo "    docker run --privileged -t -i -e "container=docker" -p 8010:8010 hpccsystems/${project}:${tag} /bin/bash"
-fi
    echo "    /usr/sbin/sshd &"
    echo "    /etc/init.d/hpcc-init start"
 fi
