@@ -9,6 +9,7 @@ usage()
    echo "                -s <base image suffix> -v <fullversion> -n"
    echo "  -b: base url of HPCC project image"
    echo "  -d: HPCC Docker repository directory"
+   echo "  -D: use debug build"
    echo "  -l: Linux codename. Supported: trusty,xenial, el7, el6."
    echo "  -p: HPCC project name: ce or plugins. Default is ce"
    echo "  -s: base linux image tag suffix. The default is hpcc<fullvesion_major>."
@@ -23,6 +24,7 @@ usage()
 #http://10.240.32.242/builds/CE-Candidate-5.4.6/bin/platform/
 base_url=http://cdn.hpccsystems.com/releases
 #base_url=http://10.240.32.242/builds
+#base_url=http://10.240.32.242/builds/custom/kubernetes
 
 codename=
 project=ce
@@ -30,13 +32,16 @@ tag=
 template=
 hpcc_docker_dir=../HPCC-Docker
 base_suffix=
+debug=0
 
-while getopts "*b:d:l:p:s:t:v:" arg
+while getopts "*b:d:Dl:p:s:t:v:" arg
 do
     case "$arg" in
        b) base_url="$OPTARG"
           ;;
        d) hpcc_docker_dir="$OPTARG"
+          ;;
+       D) debug=1
           ;;
        l) codename="$OPTARG"
           ;;
@@ -67,15 +72,17 @@ fi
 file_name_suffix=
 package_type=
 echo "Linux code name: ${codename}"
+version_build_type=$fullversion
+[ $debug -eq 1 ] && version_build_type="${fullversion}Debug"
 case "$codename" in
    "el6" | "el7" )
-     file_name_suffix="${fullversion}.${codename}.x86_64.rpm"
-     [ -z "$tag" ] && tag="${fullversion}.${codename}"
+     file_name_suffix="${version_build_type}.${codename}.x86_64.rpm"
+     [ -z "$tag" ] && tag="${version_build_type}.${codename}"
      package_type=rpm
      ;;
    "trusty" | "xenial" )
-     file_name_suffix="${fullversion}${codename}_amd64.deb"
-     [ -z "$tag" ] && tag="${fullversion}${codename}"
+     file_name_suffix="${version_build_type}${codename}_amd64.deb"
+     [ -z "$tag" ] && tag="${version_build_type}${codename}"
      package_type=deb
      ;;
     * ) echo "Unsupported codename $codename" 
@@ -86,7 +93,7 @@ esac
 
 VERSION=$(echo $fullversion | cut -d'-' -f1)
 
-echo "Project: ${project}, Full Version: ${fullversion}, version: ${VERSION}, Tag: $tag"
+echo "Project: ${project}, Full Version: ${version_build_type}, version: ${VERSION}, Tag: $tag"
 echo "BASE URL: $base_url"
 echo "Template: $template"
 echo "file_name_suffix: $file_name_suffix"
@@ -105,7 +112,7 @@ sed "s|<URL_BASE>|${base_url}|g; \
      s|<BASE_SUFFIX>|${base_suffix}|g; \
      s|<FILE_NAME_SUFFIX>|${file_name_suffix}|g"   < ${template} > Dockerfile
 
-eval "$(docker-machine env default)"
+#eval "$(docker-machine env default)"
 pwd
 
 echo "docker build -t hpccsystems/${project}:${tag} ."
