@@ -22,8 +22,8 @@ usage()
 }
 
 #http://10.240.32.242/builds/CE-Candidate-5.4.6/bin/platform/
-base_url=http://cdn.hpccsystems.com/releases
-#base_url=http://10.240.32.242/builds
+#base_url=http://cdn.hpccsystems.com/releases
+base_url=http://10.240.32.242/builds
 #base_url=http://10.240.32.242/builds/custom/kubernetes
 
 codename=
@@ -99,10 +99,8 @@ echo "Template: $template"
 echo "file_name_suffix: $file_name_suffix"
 
 
-cp ${SCRIPT_DIR}/run_*.sh .
-cp ${SCRIPT_DIR}/start_*.sh .
-cp ${SCRIPT_DIR}/config_hpcc.sh .
-cp ${SCRIPT_DIR}/get_ips.* .
+cp ${SCRIPT_DIR}/*.sh .
+cp ${SCRIPT_DIR}/*.py .
 
 [ -e Dockerfile ] && rm -rf Dockerfile
 
