@@ -1,0 +1,19 @@
+FROM hpccsystems/linux:trusty_<BASE_SUFFIX>
+MAINTAINER Xiaoming Wang <xiaoming.wang@lexisnexis.com>
+RUN rm -rf /var/lib/apt/lists
+RUN mkdir -p /var/lib/apt/lists/partial
+RUN apt-get clean
+RUN apt-get update  
+RUN apt-get install -y libnuma1 psmisc libblas3 libatlas3-base --fix-missing
+RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+RUN groupadd hpcc
+RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc
+RUN dpkg -i hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+EXPOSE 8010 8002 8015 9876
+ADD *.sh /tmp/
+ADD *.py /tmp/
+RUN chmod +x /tmp/*.sh
+RUN chmod +x /tmp/*.py
+RUN cp -r /home/hpcc/.ssh ~/
+RUN mkdir -p /var/run/sshd
+CMD ["bash", "-c", "set -e && sudo /usr/sbin/sshd -D"]

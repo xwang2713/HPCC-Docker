@@ -3,23 +3,21 @@ FROM hpccsystems/linux:xenial_nagios3
 # based on work done by Xiaoming Wang <xiaoming.wang@lexisnexis.com>
 MAINTAINER Gleb Aronsky <gleb.aronsky@lexisnexis.com>
 
-RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+RUN apt-get install -y expect libblas3 libatlas3-base --fix-missing
+
+RUN wget <URL_BASE>/CE-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 
 # hpcc-nagios
-RUN wget <URL_BASE>/<PLATFORM_TYPE>-Candidate-<VERSION>/bin/nagios-monitoring/hpccsystems-nagios-monitoring-<FILE_NAME_SUFFIX>
+RUN wget <URL_BASE>/CE-Candidate-<VERSION>/bin/nagios-monitoring/hpccsystems-nagios-monitoring-<FILE_NAME_SUFFIX>
 
 RUN groupadd hpcc
 RUN useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc
 RUN dpkg -i hpccsystems-platform-community_<FILE_NAME_SUFFIX>
 RUN dpkg -i hpccsystems-nagios-monitoring-<FILE_NAME_SUFFIX>
 EXPOSE 8010 8002 8015 9876 80
-ADD run_master.sh /tmp/
-ADD config_hpcc.sh /tmp/
-ADD get_ips.py /tmp/
-ADD get_ips.sh /tmp/
-RUN chmod +x /tmp/run_master.sh
-RUN chmod +x /tmp/config_hpcc.sh
-RUN chmod +x /tmp/get_ips.py
-RUN chmod +x /tmp/get_ips.sh
+ADD *.sh /tmp/
+ADD *.py /tmp/
+RUN chmod +x /tmp/*.sh
+RUN chmod +x /tmp/*.py
 RUN mkdir -p /var/run/sshd
 CMD ["bash", "-c", "sudo /usr/sbin/sshd -D"]

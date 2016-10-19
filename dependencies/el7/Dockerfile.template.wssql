@@ -1,0 +1,20 @@
+FROM hpccsystems/linux:el7_<BASE_SUFFIX>
+MAINTAINER Xiaoming Wang <xiaoming.wang@lexisnexis.com>
+RUN yum update -y 
+RUN yum install -y  net-tools which psmisc blas.x86_64 atlas.x86_64
+RUN chmod u+s $(which ping)
+RUN wget <URL_BASE>/CE-Candidate-<VERSION>/bin/platform/hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+RUN wget <URL_BASE>/CE-Candidate-<VERSION>/bin/wssql/hpccsystems-wssql-<FILE_NAME_SUFFIX>
+RUN yum install --nogpgcheck -y hpccsystems-platform-community_<FILE_NAME_SUFFIX>
+#RUN yum install --nogpgcheck -y hpccsystems-wssql-<FILE_NAME_SUFFIX>
+RUN rpm -i --force hpccsystems-wssql-<FILE_NAME_SUFFIX>
+EXPOSE 8010 8002 8015 9876 8510
+ADD *.sh /tmp/
+ADD *.py /tmp/
+RUN chmod +x /tmp/*.sh
+RUN chmod +x /tmp/*.py
+ADD environment.xml /etc/HPCCSystems/environment.xml
+RUN chmod 644 /etc/HPCCSystems/environment.xml
+RUN chown hpcc:hpcc /etc/HPCCSystems/environment.xml
+RUN mkdir -p /var/run/sshd
+CMD ["bash", "-c",  "/usr/sbin/sshd -D"]

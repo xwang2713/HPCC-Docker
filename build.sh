@@ -30,7 +30,7 @@ codename=
 project=ce
 tag=
 template=
-hpcc_docker_dir=../HPCC-Docker
+hpcc_docker_dir=$SCRIPT_DIR
 base_suffix=
 debug=0
 
@@ -63,7 +63,7 @@ then
     usage
 fi
 
-template=${hpcc_docker_dir}/hpcc/${codename}/Dockerfile.template.${project}
+template=${hpcc_docker_dir}/dependencies/${codename}/Dockerfile.template.${project}
 if [ "$project" = "ce" ] || [ "$project" = "ee" ] || [ "$project" = "ln" ]
 then
   PLATFORM_TYPE=$(echo $project | cut -d'-' -f1 | tr [a-z] [A-Z])
@@ -102,6 +102,12 @@ echo "file_name_suffix: $file_name_suffix"
 cp ${SCRIPT_DIR}/*.sh .
 cp ${SCRIPT_DIR}/*.py .
 
+case "$project" in
+    wssql)
+      cp ${hpcc_docker_dir}/hpcc/wssql/environment.xml .
+      ;;
+
+esac
 [ -e Dockerfile ] && rm -rf Dockerfile
 
 sed "s|<URL_BASE>|${base_url}|g; \
