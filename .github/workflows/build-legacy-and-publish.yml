@@ -1,4 +1,4 @@
-name: Build and publish
+name: Build legacy and publish
 # This workflow is triggered on new tags of Community Edition 7.8.x or later,
 # or any of the weekly tag names starting 'master'
 on:
@@ -21,9 +21,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build
-        uses: ./ml
+        uses: ./legacy
         with:
           username: ${{ secrets.DH_USERNAME }}
           password: ${{ secrets.DH_PASSWORD }}
           latest: 1   # this should only be set on the current minor branch
-          build_ml: all   # this should only be set on the current minor branch

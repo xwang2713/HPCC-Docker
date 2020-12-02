@@ -1,0 +1,18 @@
+name: 'Publish HPCC Platform Legacy Docker Images'
+description: 'Uses the git branch as the docker tag and pushes the container'
+inputs:
+  username:
+    description: 'The login username for docker hub'
+    required: true
+  password:
+    description: 'The login password for docker hub'
+    required: true
+  latest:
+    description: 'Set to 1 to also tag as latest when maturity is release'
+    required: false
+outputs:
+  tag:
+    description: 'Is the tag, which was pushed'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

@@ -26,5 +26,5 @@ RUN apk update \
   && apk add --no-cache git bash
 RUN ls ./
 
-ENTRYPOINT ["./buildml.sh"]
+ENTRYPOINT ["legacy/build-legacy.sh"]
 

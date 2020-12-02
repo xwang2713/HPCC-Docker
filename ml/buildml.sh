@@ -75,7 +75,8 @@ else
   USE_CPPUNIT=0
 fi
 
-if [[ "$HPCC_MATURITY" = "release" ]] && [[ "$INPUT_LATEST" = "1" ]] ; then
+#if [[ "$HPCC_MATURITY" = "release" ]] && [[ "$INPUT_LATEST" = "1" ]] ; then
+if [[ "$INPUT_LATEST" = "1" ]] ; then
   LATEST=1
 fi
 
@@ -156,7 +157,7 @@ build_ml() {
   docker image build -t hpccsystems/platform-${name}:${label} \
      --build-arg DOCKER_REPO=hpccsystems \
      --build-arg BUILD_LABEL=${label} \
-     ml/${name}/
+     ${name}/
 
   push_image platform-${name} ${label}
 }
