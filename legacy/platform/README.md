@@ -23,7 +23,7 @@ You can start the Docker HPCC Systems image in interactive (-i -t) or daemon mod
 
 To start Docker on in interactive mode :
 ```console
-sudo docker run -t -i  hpccsystems/platform  /bin/bash
+sudo docker run -t -i  hpccsystemslegacy/platform  /bin/bash
 ```
 For start CentOS Docker image
 ```console
@@ -32,7 +32,7 @@ sudo docker run -t -i --cap-add SYS_RESOURCE -e "container=docker"  <docker imag
 
 To start Docker in daemon mode
 ```console
-sudo docker run -d hpccsystems/platform
+sudo docker run -d hpccsystemslegacy/platform
 ```
 
 
@@ -42,7 +42,7 @@ sudo docker build -t <target image>:<tag> --build-arg version=<HPCC Systems Vers
 ```
 For example,
 ```console
-sudo docker build -t hpccsystems/platform:7.6.6-1 --build-arg version=7.6.6-1  .
+sudo docker build -t hpccsystemslegacy/platform:7.6.6-1 --build-arg version=7.6.6-1  .
 ```
 
 If you have local HPCC Systems Platform package you can use Dockerfile-local. It assumes that there is package with prefix hpccsystems-platform on local directory.

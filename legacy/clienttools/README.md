@@ -22,7 +22,7 @@ You can start the Docker HPCC Systems image in interactive (-i -t) or daemon mod
 
 To start Docker in interactive mode:
 ```
-sudo docker run -t -i hpccsystems/clienttools /bin/bash
+sudo docker run -t -i hpccsystemslegacy/clienttools /bin/bash
 ```
 
 # How is this image build
@@ -31,7 +31,7 @@ sudo docker build -t <target image>:<tag> --build-arg version=<HPCC Systems Vers
 ```
 For example,
 ```console
-sudo docker build -t hpccsystems/clienttools:7.4 --build-arg version=7.4.22-1  .
+sudo docker build -t hpccsystemslegacy/clienttools:7.4 --build-arg version=7.4.22-1  .
 ```
 
 # License

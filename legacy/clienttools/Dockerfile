@@ -13,7 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 ################################################################################
-FROM hpccsystems/hpcc-base:7-bionic
+FROM hpccsystemslegacy/hpcc-base
 
 ARG version=
 RUN if [ -z "${version}" ] ; then echo Missing HPCC version; exit 1; else : ; fi

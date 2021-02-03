@@ -13,7 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 ################################################################################
-From hpccsystems/hpcc-dev:7-gcc-9 AS gcc-9-builder
+From hpccsystemslegacy/hpcc-dev:7-gcc-9 AS gcc-9-builder
 # Usage: sudo docker build -t <image tag> --build-arg branch=<HPCC branch or tag> --build-arg owner=<repo owner> .
 # The default branch is "master". The default github repo owner is "hpcc-systems".
 ARG branch=
@@ -47,7 +47,7 @@ RUN set -ex; \
    make package
 
 
-From hpccsystems/hpcc-base:7-bionic
+From hpccsystemslegacy/hpcc-base
 
 WORKDir /Downloads
 COPY --from=0 /hpcc-dev/build/hpccsystems*.deb .

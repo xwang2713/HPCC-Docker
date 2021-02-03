@@ -1,4 +1,4 @@
-FROM hpccsystems/platform
+FROM hpccsystemslegacy/platform
 
 #RUN apt-get update && apt-get install -y iputils-ping curl xterm
 #RUN groupadd hpcc && useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc

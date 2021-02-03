@@ -13,7 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 ################################################################################
-FROM hpccsystems/hpcc-base:7-bionic
+FROM hpccsystemslegacy/hpcc-base
 
 COPY hpccsystems-platform* .
 RUN set -ex; \

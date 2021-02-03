@@ -13,14 +13,14 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 ################################################################################
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		ca-certificates       \
 		wget                  \
                 libaprutil1           \
-                libboost-regex1.65.1  \
-                libicu60              \
+                libboost-regex1.71.0  \
+                libicu66              \
                 libldap-2.4-2         \
                 libtbb2               \
                 libnuma1              \
@@ -39,8 +39,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 libmemcached11        \
                 libmemcachedutil2     \
                 libpython2.7          \
-                libpython3.6          \
+                libpython3.8          \
                 vim                   \
+                dnsutils              \
+                curl                  \
+                zip                   \
                 net-tools             \
                 --fix-missing         \
 	&& rm -rf /var/lib/apt/lists/*

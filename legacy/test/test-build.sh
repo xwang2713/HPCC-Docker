@@ -50,7 +50,7 @@ function test()
 package="platform"
 variants="ubuntu"
 tag=latest
-repo="hpccsystems/platform"
+repo="hpccsystemslegacy/platform"
 
 while getopts "*l:r:t:" arg
 do
