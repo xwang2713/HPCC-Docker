@@ -15,7 +15,7 @@ RUN set -x ; \
    plugins="couchbaseembed javaembed kafka memcached mysqlembed redis sqlite3embed sqs"; \
    for plugin in $plugins ;\
    do \
-      plugin_file="hpccsystems-plugin-${plugin}_${version}bionic_amd64.deb"; \
+      plugin_file="hpccsystems-plugin-${plugin}_${version}focal_amd64.deb"; \
       url="${urlbase}/${plugin_file}"; \
       wget $url ; \
       if [ $? -ne 0 ] ; \

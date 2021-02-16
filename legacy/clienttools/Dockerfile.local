@@ -23,7 +23,7 @@ RUN set -ex; \
    apt-get update; \
    apt-get install -y curl libarchive13 openjdk-8-jdk --fix-missing; \
    export VERSION_MMP=${version%-*}; \
-   export CLIENTTOOLS_PACKAGE=hpccsystems-clienttools-community_${version}bionic_amd64.deb; \
+   export CLIENTTOOLS_PACKAGE=hpccsystems-clienttools-community_${version}focal_amd64.deb; \
    wget  "http://d2wulyp08c6njk.cloudfront.net/releases/CE-Candidate-${VERSION_MMP}/bin/clienttools/${CLIENTTOOLS_PACKAGE}"; \
    #echo "$CLIENTTOOLS_DOWNLOAD_MD5 ${CLIENTTOOLS_PACKAGE}" | md5sum -c -; \
    dpkg -i "${CLIENTTOOLS_PACKAGE}" ;\

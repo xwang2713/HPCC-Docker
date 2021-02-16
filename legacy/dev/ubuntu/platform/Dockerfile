@@ -13,7 +13,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 ################################################################################
-From hpccsystems/hpcc-dev:7-bionic AS bionic-builder
+From hpccsystems/hpcc-dev:7-focal AS focal-builder
 # Usage: sudo docker build -t <image tag> --build-arg branch=<HPCC branch or tag> --build-arg owner=<project owner> .
 # The default branch is "master". The default github project owner is "hpcc-systems".
 # user/password is used to clone non-public project such as LN.
@@ -49,7 +49,7 @@ RUN set -ex; \
    make package
 
 
-From hpccsystems/hpcc-base:7-bionic
+From hpccsystems/hpcc-base:7-focal
 
 WORKDir /Downloads
 COPY --from=0 /hpcc-dev/build/hpccsystems*.deb .

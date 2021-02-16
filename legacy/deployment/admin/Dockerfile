@@ -26,7 +26,7 @@ RUN set -ex; \
    pip3 install kubernetes ; \
    groupadd hpcc && useradd -s /bin/bash -r -m -d /home/hpcc -g hpcc -c "hpcc Runtime User" hpcc ; \
    export VERSION_MMP=${version%-*}; \
-   export PLATFORM_PACKAGE=hpccsystems-platform-community_${version}bionic_amd64.deb; \
+   export PLATFORM_PACKAGE=hpccsystems-platform-community_${version}focal_amd64.deb; \
    wget  "http://d2wulyp08c6njk.cloudfront.net/releases/CE-Candidate-${VERSION_MMP}/bin/platform/${PLATFORM_PACKAGE}"; \
    #echo "$PLATFORM_DOWNLOAD_MD5 ${PLATFORM_PACKAGE}" | md5sum -c -; \
    dpkg -i "${PLATFORM_PACKAGE}" ;\
