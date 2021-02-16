@@ -40,6 +40,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 libmemcachedutil2     \
                 libpython2.7          \
                 libpython3.8          \
+                python3.8             \
                 vim                   \
                 dnsutils              \
                 curl                  \
