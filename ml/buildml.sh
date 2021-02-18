@@ -27,7 +27,7 @@ BUILD_USER=hpcc-systems                         # The github repo owner
 BUILD_TYPE=                                     # Set to Debug for a debug build, leave blank for default (RelWithDebInfo)
 USE_CPPUNIT=1
 
-INPUT_BUILD_ML=   #all or ml,gnn,gnn-gpu
+BUILD_ML=   #all or ml,gnn,gnn-gpu
 ml_features=(
   'ml'
   'gnn'
