@@ -27,7 +27,7 @@ BUILD_USER=hpcc-systems                         # The github repo owner
 BUILD_TYPE=                                     # Set to Debug for a debug build, leave blank for default (RelWithDebInfo)
 USE_CPPUNIT=1
 
-#INPUT_BUILD_ML=all #ml,gnn,gnn-gpu
+INPUT_BUILD_ML=   #all or ml,gnn,gnn-gpu
 ml_features=(
   'ml'
   'gnn'
@@ -39,6 +39,7 @@ ml_features=(
 [[ -n ${INPUT_BUILD_USER} ]] && BUILD_USER=${INPUT_BUILD_USER}
 [[ -n ${INPUT_BUILD_VER} ]] && BUILD_TAG=${INPUT_BUILD_VER}
 [[ -n ${GITHUB_REPOSITORY} ]] && BUILD_USER=${GITHUB_REPOSITORY%/*}
+[[ -n ${INPUT_BUILD_ML} ]] && BUILD_ML=${INPUT_BUILD_ML}
 
 if [[ -n ${INPUT_USERNAME} ]] ; then
   echo ${INPUT_PASSWORD} | docker login -u ${INPUT_USERNAME} --password-stdin ${INPUT_REGISTRY}
@@ -117,13 +118,13 @@ push_image() {
 }
 
 build_ml_image() {
-  [ -z "$INPUT_BUILD_ML" ] && return
+  [ -z "$BUILD_ML" ] && return
   features=()
-  if [ "$INPUT_BUILD_ML" = "all" ]
+  if [ "$BUILD_ML" = "all" ]
   then
     features=(${ml_features[@]})
   else
-    for feature in ${INPUT_BUILD_ML}
+    for feature in ${BUILD_ML}
     do
       found=false
       for ml_feature in ${ml_features[@]}
