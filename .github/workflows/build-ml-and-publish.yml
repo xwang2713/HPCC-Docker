@@ -4,7 +4,7 @@ name: Build and publish
 on:
   push:
     tags:
-    - 'community_*'
+    - '!community_*'
     - '!community_7.8.*'
     - '!community_7.6.*'
     - '!community_7.4.*'
