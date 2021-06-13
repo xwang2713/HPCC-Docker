@@ -32,6 +32,6 @@ RUN pip3 install       \
     networkx           \
     setuptools==46.1.3 \
     scipy==1.4.1       \
-    tensorflow==2.2.0
+    tensorflow==2.5.0
 
 USER hpcc

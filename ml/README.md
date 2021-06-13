@@ -28,14 +28,21 @@ Tensorflow and Nvidia Cuda Dockerfiles and Docker images to pick compatible liba
 
 - Dockerfile:
   https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-- tensorflow/tensorflow:2.2.0-gpu
-   https://hub.docker.com/layers/tensorflow/tensorflow/2.2.0-gpu/images/sha256-3f8f06cdfbc09c54568f191bbc54419b348ecc08dc5e031a53c22c6bba0a252e?context=explore
+  Above Dockeerfile is baed https://hub.docker.com/layers/nvidia/cuda/11.2.1-base-ubuntu20.04
+  Reference following nvidia/cuda/11.2.1-base-ubuntu20.04 Dockerfile in above Dockerfile
+   
+- The generated tensorflow/tensorflow:2.2.0-gpu
+  https://hub.docker.com/layers/tensorflow/tensorflow/2.2.0-gpu/images/sha256-3f8f06cdfbc09c54568f191bbc54419b348ecc08dc5e031a53c22c6bba0a252e?context=explore
 
 #### Nvidia Cuda
 
-- NVDA CUDA Dockerfile: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/ubuntu18.04/10.1/base/Dockerfile
-- nvidia/cuda:10.1-base-ubuntu18.04:
-  https://hub.docker.com/layers/nvidia/cuda/10.1-base-ubuntu18.04/images/sha256-3cb86d1437161ef6998c4a681f2ca4150368946cc8e09c5e5178e3598110539f?context=explore
+- NVDA CUDA Dockerfile: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/ubuntu20.04/11.2.1/base/Dockerfile
+
+  https://hub.docker.com/layers/nvidia/cuda/11.2.1-base-ubuntu20.04/images/sha256-1233563efcc383531bf86c25384fd0f74945305db7c3f98a7b3af22ba8af5f76?context=explore
+
+- NGC-DL-CONTAINER-LICENSE
+  https://gitlab.com/nvidia/container-images/cuda/-/blob/master/LICENSE under BSD 3-Clause "New" or "Revised" License
+
 
 ## Build
 
